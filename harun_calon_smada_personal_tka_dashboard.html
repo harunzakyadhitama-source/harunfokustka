@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harun Calon Smada | TKA Study Sanctuary</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- KaTeX for formula rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <!-- Marked for markdown parsing in AI tutor -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            obsidian: '#090a0f',
+            surface: '#11131a',
+            surfaceLight: '#181b26',
+            borderSubtle: '#212638',
+            accentViolet: '#8b5cf6',
+            accentCyan: '#06b6d4',
+            accentGlow: '#6366f1'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #090a0f;
+      color: #e2e8f0;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.06) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+    .glass-card {
+      background: rgba(17, 19, 26, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .glass-card:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-preserve {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    /* Sleek Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090a0f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #212638;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b4261;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-purple-500/30 selection:text-purple-200">
+
+  <!-- ================= TOP NAV BAR ================= -->
+  <header class="sticky top-0 z-40 border-b border-white/[0.06] bg-[#090a0f]/80 backdrop-blur-xl px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand & Ambition Badge -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-cyan-500 p-[1px] shadow-lg shadow-purple-500/10">
+          <div class="w-full h-full bg-[#090a0f] rounded-[11px] flex items-center justify-center text-cyan-400">
+            <i class="ph-bold ph-lightning text-xl"></i>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-extrabold tracking-tight text-white flex items-center gap-1.5">
+              Harun <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Calon Smada</span>
+            </h1>
+            <span class="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20">Target SMA 2</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-mono tracking-wide">TKA • Ujian Masuk • SMP 7-9</p>
+        </div>
+      </div>
+
+      <!-- Navigation Pills -->
+      <nav class="hidden md:flex items-center gap-1 bg-[#131620] p-1.5 rounded-2xl border border-white/[0.05] text-xs">
+        <button onclick="navigateTab('materi')" id="tab-btn-materi" class="nav-tab px-3.5 py-1.5 rounded-xl font-medium transition-all bg-purple-600 text-white shadow-sm">
+          <i class="ph-bold ph-book-bookmark mr-1"></i> Materi & Rumus
+        </button>
+        <button onclick="navigateTab('flashcard')" id="tab-btn-flashcard" class="nav-tab px-3.5 py-1.5 rounded-xl font-medium text-slate-400 hover:text-white transition-all">
+          <i class="ph-bold ph-cards mr-1"></i> Flashcard
+        </button>
+        <button onclick="navigateTab('kuis')" id="tab-btn-kuis" class="nav-tab px-3.5 py-1.5 rounded-xl font-medium text-slate-400 hover:text-white transition-all">
+          <i class="ph-bold ph-check-circle mr-1"></i> Kuis TKA
+        </button>
+        <button onclick="navigateTab('pomodoro')" id="tab-btn-pomodoro" class="nav-tab px-3.5 py-1.5 rounded-xl font-medium text-slate-400 hover:text-white transition-all">
+          <i class="ph-bold ph-timer mr-1"></i> Pomodoro
+        </button>
+        <button onclick="navigateTab('ai-tutor')" id="tab-btn-ai-tutor" class="nav-tab px-3.5 py-1.5 rounded-xl font-medium text-slate-400 hover:text-white transition-all flex items-center gap-1">
+          <i class="ph-bold ph-sparkle text-cyan-400"></i> Smada AI Tutor
+        </button>
+      </nav>
+
+      <!-- Action Button / Calc Popover Trigger -->
+      <div class="flex items-center gap-2">
+        <button onclick="toggleCalcModal()" class="px-3 py-1.5 text-xs font-semibold rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 border border-white/[0.08] transition-all flex items-center gap-1.5">
+          <i class="ph-bold ph-calculator text-cyan-400"></i>
+          <span class="hidden sm:inline">Kalkulator</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Bar Below -->
+    <div class="flex md:hidden overflow-x-auto gap-1 pt-2.5 mt-2 border-t border-white/[0.04] text-xs pb-1">
+      <button onclick="navigateTab('materi')" id="m-tab-materi" class="px-3 py-1.5 rounded-xl bg-purple-600 text-white whitespace-nowrap font-medium">Rumus</button>
+      <button onclick="navigateTab('flashcard')" id="m-tab-flashcard" class="px-3 py-1.5 rounded-xl text-slate-400 whitespace-nowrap font-medium">Flashcard</button>
+      <button onclick="navigateTab('kuis')" id="m-tab-kuis" class="px-3 py-1.5 rounded-xl text-slate-400 whitespace-nowrap font-medium">Kuis</button>
+      <button onclick="navigateTab('pomodoro')" id="m-tab-pomodoro" class="px-3 py-1.5 rounded-xl text-slate-400 whitespace-nowrap font-medium">Pomodoro</button>
+      <button onclick="navigateTab('ai-tutor')" id="m-tab-ai-tutor" class="px-3 py-1.5 rounded-xl text-slate-400 whitespace-nowrap font-medium flex items-center gap-1">
+        <i class="ph-bold ph-sparkle text-cyan-400"></i> AI Tutor
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= HERO & MOTTO SECTION ================= -->
+  <section class="max-w-7xl mx-auto w-full px-4 lg:px-8 pt-6 pb-2">
+    <div class="glass-card rounded-2xl p-5 md:p-6 relative overflow-hidden">
+      <!-- Glow Decor -->
+      <div class="absolute -top-16 -right-16 w-56 h-56 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+        <div class="space-y-1.5">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-purple-500/10 border border-purple-500/20 text-purple-300">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+            MISI: LOLOS SMA NEGERI 2 TAHUN INI
+          </div>
+          <h2 class="text-xl md:text-2xl font-bold text-white tracking-tight">
+            "Konsistensi Menembus Batas, Harun!"
+          </h2>
+          <p class="text-xs md:text-sm text-slate-400 max-w-xl leading-relaxed">
+            Catatan pintar matematika, sains, dan bahasa kelas 7-9. Dilengkapi AI khusus untuk menemanimu belajar hingga paham sampai akar-akarnya.
+          </p>
+        </div>
+
+        <!-- Quick Stats Pill -->
+        <div class="grid grid-cols-3 gap-2 bg-[#090a0f]/60 p-2.5 rounded-xl border border-white/[0.05] self-start md:self-auto text-center min-w-[260px]">
+          <div class="p-1.5">
+            <div id="stat-mastered" class="text-lg font-bold font-mono text-purple-400">12</div>
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider">Rumus Inti</div>
+          </div>
+          <div class="p-1.5 border-x border-white/[0.06]">
+            <div id="stat-cards" class="text-lg font-bold font-mono text-cyan-400">8</div>
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider">Flashcard</div>
+          </div>
+          <div class="p-1.5">
+            <div id="stat-pomo" class="text-lg font-bold font-mono text-emerald-400">0</div>
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider">Sesi Fokus</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN CONTENT TABS ================= -->
+  <main class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-6 flex-1">
+
+    <!-- TAB 1: MATERI & RUMUS RANGKUMAN -->
+    <section id="view-materi" class="space-y-6">
+      
+      <!-- Filter Bar -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <!-- Grade & Subject Buttons -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+          <button onclick="filterGrade('all')" class="grade-pill active px-3.5 py-1.5 rounded-xl bg-purple-600/90 text-white font-medium">Semua Kelas</button>
+          <button onclick="filterGrade('7')" class="grade-pill px-3.5 py-1.5 rounded-xl bg-[#151822] text-slate-400 hover:text-white font-medium border border-white/[0.05]">Kelas 7</button>
+          <button onclick="filterGrade('8')" class="grade-pill px-3.5 py-1.5 rounded-xl bg-[#151822] text-slate-400 hover:text-white font-medium border border-white/[0.05]">Kelas 8</button>
+          <button onclick="filterGrade('9')" class="grade-pill px-3.5 py-1.5 rounded-xl bg-[#151822] text-slate-400 hover:text-white font-medium border border-white/[0.05]">Kelas 9</button>
+        </div>
+
+        <!-- Search Box -->
+        <div class="relative w-full sm:w-72">
+          <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+          <input type="text" id="materi-search" oninput="renderFormulaCards()" placeholder="Cari rumus atau konsep..." class="w-full bg-[#11131a] border border-white/[0.08] rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/60">
+        </div>
+      </div>
+
+      <!-- Formula Cards Grid -->
+      <div id="formula-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- TAB 2: FLASHCARD MODERN -->
+    <section id="view-flashcard" class="hidden max-w-2xl mx-auto space-y-6">
+      <div class="text-center space-y-1">
+        <h3 class="text-lg font-bold text-white">Flashcard Konsep TKA Kunci</h3>
+        <p class="text-xs text-slate-400">Klik kartu untuk membalik & melatih daya ingatmu sebelum ujian.</p>
+      </div>
+
+      <!-- 3D Card Display -->
+      <div class="perspective-1000 w-full h-80 cursor-pointer select-none" onclick="flipFlashcard()">
+        <div id="flashcard-3d" class="relative w-full h-full transform-style-preserve transition-transform duration-500 rounded-2xl glass-card border border-white/[0.08] shadow-2xl">
+          
+          <!-- Front (Question) -->
+          <div class="absolute inset-0 backface-hidden p-8 flex flex-col justify-between rounded-2xl bg-gradient-to-b from-[#13151f] to-[#0c0e14]">
+            <div class="flex items-center justify-between text-xs">
+              <span id="fc-badge" class="px-2.5 py-0.5 rounded-full font-mono text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30">MATEMATIKA • KELAS 8</span>
+              <span class="text-slate-500 text-[11px] flex items-center gap-1"><i class="ph-bold ph-arrows-clockwise"></i> Klik balik</span>
+            </div>
+
+            <div class="my-auto text-center px-4">
+              <p class="text-[11px] uppercase tracking-wider text-slate-500 mb-2 font-mono">Pertanyaan</p>
+              <h4 id="fc-front-text" class="text-lg md:text-xl font-bold text-slate-100 leading-relaxed">
+                Apa rumus Teorema Pythagoras dan sebutkan 2 contoh pasangan Tripel Pythagoras?
+              </h4>
+            </div>
+
+            <div class="text-center text-[11px] text-slate-500 font-mono" id="fc-progress-counter">
+              Kartu 1 / 8
+            </div>
+          </div>
+
+          <!-- Back (Answer) -->
+          <div class="absolute inset-0 backface-hidden rotate-y-180 p-8 flex flex-col justify-between rounded-2xl bg-gradient-to-b from-[#1e1435] to-[#110d21] border border-purple-500/30">
+            <div class="flex items-center justify-between text-xs">
+              <span class="px-2.5 py-0.5 rounded-full font-mono text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">JAWABAN INTI</span>
+              <span class="text-purple-300/60 text-[11px] flex items-center gap-1"><i class="ph-bold ph-arrows-clockwise"></i> Klik balik</span>
+            </div>
+
+            <div class="my-auto text-center px-4">
+              <div id="fc-back-text" class="text-sm md:text-base font-medium text-slate-200 leading-relaxed">
+                <span class="font-bold text-white text-lg">c² = a² + b²</span> (c = sisi miring).<br>
+                Tripel umum: <span class="text-cyan-300 font-mono">3, 4, 5</span> dan <span class="text-purple-300 font-mono">5, 12, 13</span>.
+              </div>
+            </div>
+
+            <div class="text-center text-[11px] text-purple-300/60">
+              Mantap, pertahankan ingatan ini!
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="flex items-center justify-between gap-3 pt-2">
+        <button onclick="prevCard()" class="px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-xs font-semibold text-slate-300 transition-all flex items-center gap-1.5">
+          <i class="ph-bold ph-caret-left"></i> Sebelum
+        </button>
+        <button onclick="flipFlashcard()" class="px-5 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-xs font-bold text-purple-300 border border-purple-500/40 transition-all flex items-center gap-1.5">
+          <i class="ph-bold ph-arrows-counter-clockwise"></i> Balik Kartu
+        </button>
+        <button onclick="nextCard()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-semibold text-white transition-all flex items-center gap-1.5 shadow-lg shadow-purple-600/20">
+          Lanjut <i class="ph-bold ph-caret-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 3: KUIS TKA CEPAT -->
+    <section id="view-kuis" class="hidden max-w-3xl mx-auto space-y-6">
+      <div class="flex items-center justify-between border-b border-white/[0.06] pb-4">
+        <div>
+          <h3 class="text-lg font-bold text-white">Simulasi Soal TKA SMP 7-9</h3>
+          <p class="text-xs text-slate-400">Pilih opsi jawaban, klik "Cek Jawaban", dan baca pembahasannya.</p>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-slate-400 font-mono">Skor Sesi Ini</div>
+          <div id="quiz-session-score" class="text-lg font-bold font-mono text-cyan-400">0 Poin</div>
+        </div>
+      </div>
+
+      <div id="quiz-list" class="space-y-4">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- TAB 4: POMODORO FOKUS -->
+    <section id="view-pomodoro" class="hidden max-w-xl mx-auto space-y-6 text-center">
+      <div class="space-y-1">
+        <h3 class="text-lg font-bold text-white">Sesi Belajar Fokus Pomodoro</h3>
+        <p class="text-xs text-slate-400">25 Menit fokus tanpa distraksi, 5 menit relaksasi pikiran.</p>
+      </div>
+
+      <div class="glass-card rounded-3xl p-8 border border-white/[0.08] relative overflow-hidden">
+        <!-- Mode Switcher -->
+        <div class="inline-flex p-1 rounded-2xl bg-[#090a0f] border border-white/[0.06] mb-8">
+          <button onclick="setTimerType('focus')" id="pomo-btn-focus" class="px-4 py-1.5 rounded-xl text-xs font-semibold bg-purple-600 text-white transition-all">Sesi Belajar (25m)</button>
+          <button onclick="setTimerType('break')" id="pomo-btn-break" class="px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition-all">Istirahat (5m)</button>
+        </div>
+
+        <!-- Big Display -->
+        <div class="my-4">
+          <div id="pomo-display" class="font-mono text-7xl font-extrabold tracking-tight text-white drop-shadow-md">
+            25:00
+          </div>
+          <p id="pomo-state-label" class="text-[11px] font-mono uppercase tracking-widest text-purple-400 mt-3">SIAP UNTUK FOKUS</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-center gap-3 mt-8">
+          <button onclick="togglePomoTimer()" id="pomo-play-btn" class="px-8 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 text-white font-bold text-xs tracking-wider transition-all shadow-lg shadow-purple-600/30 flex items-center gap-2">
+            <i class="ph-fill ph-play text-sm"></i>
+            <span>MULAI SESI</span>
+          </button>
+          <button onclick="resetPomoTimer()" class="p-3 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 text-xs font-semibold transition-all" title="Reset Timer">
+            <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+          </button>
+        </div>
+
+        <p class="text-[11px] text-slate-500 mt-8 max-w-sm mx-auto leading-relaxed">
+          "Target Harun masuk SMADA bukan cuma mimpi, tapi akumulasi dari setiap 25 menit fokus harian."
+        </p>
+      </div>
+    </section>
+
+    <!-- TAB 5: SMADA AI TUTOR (GEMINI LIVE INTERFACE) -->
+    <section id="view-ai-tutor" class="hidden max-w-3xl mx-auto space-y-4">
+      <div class="glass-card rounded-2xl p-4 md:p-5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white text-lg shadow-md shadow-cyan-500/20">
+            <i class="ph-bold ph-sparkle"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-sm">Smada AI Study Mentor</h3>
+            <p class="text-[11px] text-slate-400">Tanyakan soal sulit, minta trik rumus cepat, atau minta dites!</p>
+          </div>
+        </div>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Siap Membantu
+        </span>
+      </div>
+
+      <!-- Quick Prompt Chips -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+        <button onclick="sendQuickPrompt('Jelasin cara gampang nyelesaiin soal Persamaan Kuadrat dengan rumus ABC dong!')" class="px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-purple-500/20 border border-white/[0.06] text-slate-300 whitespace-nowrap transition-all">
+          ⚡ Trik Rumus ABC MTK
+        </button>
+        <button onclick="sendQuickPrompt('Bikinin 2 soal HOTS IPA Kelas 8 tentang Hukum Newton beserta pembahasannya.')" class="px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-purple-500/20 border border-white/[0.06] text-slate-300 whitespace-nowrap transition-all">
+          🎯 Kuis Cepat Hukum Newton
+        </button>
+        <button onclick="sendQuickPrompt('Kasih motivasi dan strategi belajar harian biar Harun mantap masuk SMA 2!')" class="px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-purple-500/20 border border-white/[0.06] text-slate-300 whitespace-nowrap transition-all">
+          🔥 Strategi Lolos SMADA
+        </button>
+      </div>
+
+      <!-- Chat Container -->
+      <div class="glass-card rounded-2xl border border-white/[0.08] flex flex-col h-[460px]">
+        <!-- Messages Area -->
+        <div id="ai-chat-messages" class="flex-1 p-4 md:p-5 overflow-y-auto space-y-3.5 text-xs md:text-sm">
+          <div class="flex gap-3">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white text-xs flex-shrink-0 mt-0.5">
+              <i class="ph-bold ph-robot"></i>
+            </div>
+            <div class="bg-[#171a24] border border-white/[0.05] p-3.5 rounded-2xl max-w-xl text-slate-200 leading-relaxed">
+              Halo Harun! Aku <strong>Smada AI Mentor</strong> kamu. Jangan ragu tanyakan soal matematika, sains, kaidah bahasa, atau minta dibikinin ringkasan bab yang belum kamu kuasai. Mau belajar bab apa sekarang?
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-3 border-t border-white/[0.06] bg-[#0c0e14] rounded-b-2xl flex gap-2">
+          <input type="text" id="ai-user-input" onkeydown="handleAiInputKey(event)" placeholder="Tanya AI seputar materi atau soal TKA..." class="flex-1 bg-[#13151f] border border-white/[0.08] rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+          <button onclick="submitAiQuery()" id="ai-send-btn" class="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-600 hover:opacity-90 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 flex-shrink-0">
+            <span>Kirim</span>
+            <i class="ph-bold ph-paper-plane-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= KALKULATOR RUMUS MODAL ================= -->
+  <div id="calc-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-md rounded-2xl border border-white/[0.1] overflow-hidden shadow-2xl animate-in fade-in zoom-in-95">
+      <div class="px-5 py-4 border-b border-white/[0.08] flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="ph-bold ph-calculator text-cyan-400 text-lg"></i>
+          <h4 class="font-bold text-white text-sm">Kalkulator Rumus Instan</h4>
+        </div>
+        <button onclick="toggleCalcModal()" class="w-7 h-7 rounded-lg bg-white/[0.05] text-slate-400 hover:text-white flex items-center justify-center">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="block text-[11px] font-mono uppercase text-slate-400 mb-1.5">Pilih Rumus:</label>
+          <select id="calc-select" onchange="updateCalcFields()" class="w-full bg-[#151822] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+            <option value="pythagoras">Pythagoras Segitiga (c = √(a² + b²))</option>
+            <option value="persegi_panjang">Luas & Keliling Persegi Panjang</option>
+            <option value="lingkaran">Luas & Keliling Lingkaran</option>
+            <option value="massa_jenis">Massa Jenis IPA (ρ = m / V)</option>
+            <option value="hukum_ohm">Hukum Ohm (V = I × R)</option>
+          </select>
+        </div>
+
+        <div id="calc-dynamic-inputs" class="space-y-3">
+          <!-- Dynamic inputs rendered via JS -->
+        </div>
+
+        <div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 font-mono text-center">
+          <span class="text-[10px] text-purple-300 uppercase tracking-widest block mb-1">Hasil Perhitungan:</span>
+          <div id="calc-result" class="text-xl font-bold text-white">0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    /* ================= 1. DATABASE RUMUS & MATERI HARUN ================= */
+    const FORMULAS_DATA = [
+      {
+        id: "m-1",
+        grade: "7",
+        subject: "Matematika",
+        title: "Aritmetika Sosial",
+        formula: "\\text{Untung} = HJ - HB, \\quad \\%U = \\frac{U}{HB} \\times 100\\%",
+        note: "Bruto = Netto + Tara. Ingat selalu persentase untung/rugi dibagi terhadap Harga Beli (HB)!"
+      },
+      {
+        id: "m-2",
+        grade: "7",
+        subject: "IPA",
+        title: "Massa Jenis (Density)",
+        formula: "\\rho = \\frac{m}{V} \\quad [\\text{kg/m}^3]",
+        note: "1 g/cm³ = 1000 kg/m³. Benda terapung jika massa jenis benda < massa jenis zat cair."
+      },
+      {
+        id: "m-3",
+        grade: "8",
+        subject: "Matematika",
+        title: "Teorema Pythagoras",
+        formula: "c^2 = a^2 + b^2 \\implies c = \\sqrt{a^2 + b^2}",
+        note: "Tripel esensial TKA: (3, 4, 5), (5, 12, 13), (7, 24, 25), (8, 15, 17)."
+      },
+      {
+        id: "m-4",
+        grade: "8",
+        subject: "IPA",
+        title: "Hukum II Newton & Gaya",
+        formula: "\\Sigma F = m \\cdot a \\quad [\\text{Newton}]",
+        note: "Gaya sebanding dengan percepatan, namun berbanding terbalik dengan massa benda."
+      },
+      {
+        id: "m-5",
+        grade: "9",
+        subject: "Matematika",
+        title: "Rumus ABC Persamaan Kuadrat",
+        formula: "x_{1,2} = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+        note: "Diskriminan D = b² - 4ac. Jika D > 0 ada 2 akar riil; jika D = 0 ada 1 akar kembar."
+      },
+      {
+        id: "m-6",
+        grade: "9",
+        subject: "IPA",
+        title: "Hukum Ohm & Daya Listrik",
+        formula: "V = I \\cdot R, \\quad P = V \\cdot I = I^2 \\cdot R",
+        note: "V = Tegangan (Volt), I = Kuat Arus (Ampere), R = Hambatan (Ohm)."
+      },
+      {
+        id: "m-7",
+        grade: "8",
+        subject: "Bahasa Indonesia",
+        title: "Kaidah Teks Eksplanasi",
+        formula: "\\text{Struktur: Pernyataan Umum} \\rightarrow \\text{Kausalitas} \\rightarrow \\text{Interpretasi}",
+        note: "Fokus pada konjungsi kausalitas: 'karena', 'oleh sebab itu', 'sehingga', 'mengakibatkan'."
+      },
+      {
+        id: "m-8",
+        grade: "9",
+        subject: "Bahasa Inggris",
+        title: "Passive Voice Rules",
+        formula: "S + \\text{to be} + \\text{Past Participle (V3)} + (by \\dots)",
+        note: "Past Tense: was/were + V3. Present Tense: is/am/are + V3."
+      }
+    ];
+
+    /* ================= 2. DATABASE FLASHCARD ================= */
+    const FLASHCARDS_DATA = [
+      {
+        badge: "MATEMATIKA • KELAS 8",
+        q: "Apa bunyi rumus Teorema Pythagoras dan sebutkan 2 pasangan Tripel Pythagoras?",
+        a: "c² = a² + b² (c sisi terpanjang). Tripel umum: 3, 4, 5 dan 5, 12, 13."
+      },
+      {
+        badge: "IPA • KELAS 7",
+        q: "Sebutkan rumus massa jenis benda serta syarat benda terapung di air!",
+        a: "ρ = m / V (kg/m³). Syarat terapung: ρ benda lebih kecil dari ρ cairan."
+      },
+      {
+        badge: "MATEMATIKA • KELAS 9",
+        q: "Bagaimana cara menentukan jenis akar persamaan kuadrat lewat nilai diskriminan (D)?",
+        a: "D = b² - 4ac. Jika D > 0 (2 akar riil beda), D = 0 (1 akar kembar), D < 0 (tidak ada akar riil)."
+      },
+      {
+        badge: "IPA • KELAS 9",
+        q: "Tuliskan rumus Hukum Ohm dan rumus menghitung daya listrik!",
+        a: "Hukum Ohm: V = I × R. Daya Listrik: P = V × I atau P = I² × R."
+      },
+      {
+        badge: "B. INDONESIA • KELAS 8-9",
+        q: "Apa 3 bagian utama struktur teks laporan hasil observasi (LHO)?",
+        a: "1. Pernyataan Umum/Klasifikasi, 2. Deskripsi Bagian, 3. Deskripsi Manfaat/Kesimpulan."
+      },
+      {
+        badge: "B. INGGRIS • KELAS 8-9",
+        q: "Kapan kita memakai Simple Past Tense dan apa ciri keterangannya?",
+        a: "Dipakai untuk kejadian lampau. Ciri: Menggunakan Verb 2 (went, bought) dan keterangan waktu seperti 'yesterday', 'last week', 'in 2024'."
+      }
+    ];
+
+    /* ================= 3. DATABASE KUIS ================= */
+    const QUIZ_ITEMS = [
+      {
+        q: "Jika sebuah toko memberikan diskon 20% untuk jaket seharga Rp150.000,00, berapa uang yang harus dibayar Harun?",
+        options: ["Rp110.000,00", "Rp120.000,00", "Rp125.000,00", "Rp130.000,00"],
+        ans: 1,
+        expl: "Diskon = 20% × 150.000 = Rp30.000. Bayar = 150.000 - 30.000 = Rp120.000,00."
+      },
+      {
+        q: "Sebuah benda bermassa 600 gram memiliki volume 200 cm³. Berapa massa jenis benda tersebut?",
+        options: ["0.33 g/cm³", "3 g/cm³", "1.2 g/cm³", "30 g/cm³"],
+        ans: 1,
+        expl: "ρ = m / V = 600 / 200 = 3 g/cm³."
+      },
+      {
+        q: "Akar-akar dari persamaan kuadrat x² - 5x + 6 = 0 adalah...",
+        options: ["x = 2 dan x = 3", "x = -2 dan x = -3", "x = 1 dan x = 6", "x = -1 dan x = 6"],
+        ans: 0,
+        expl: "(x - 2)(x - 3) = 0, sehingga x = 2 atau x = 3."
+      },
+      {
+        q: "Change into passive: 'Harun finished the math test quickly.'",
+        options: [
+          "The math test is finished by Harun quickly.",
+          "The math test was finished by Harun quickly.",
+          "The math test has finished by Harun quickly.",
+          "The math test had finished by Harun quickly."
+        ],
+        ans: 1,
+        expl: "Kalimat lampau (finished/V2) diubah ke passive memakai was/were + V3 -> 'was finished'."
+      }
+    ];
+
+    /* ================= 4. APP STATES ================= */
+    let currentGrade = "all";
+    let activeCardIdx = 0;
+    let cardIsFlipped = false;
+    let quizScore = 0;
+
+    // Pomodoro States
+    let pomoMode = 'focus'; // 'focus' | 'break'
+    let pomoTime = 25 * 60;
+    let pomoTimerId = null;
+    let pomoSessionsCompleted = 0;
+
+    /* ================= 5. TAB NAVIGATION ================= */
+    function navigateTab(tabName) {
+      const tabs = ['materi', 'flashcard', 'kuis', 'pomodoro', 'ai-tutor'];
+      tabs.forEach(t => {
+        const v = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const mBtn = document.getElementById(`m-tab-${t}`);
+
+        if (v) v.classList.add('hidden');
+        if (btn) {
+          btn.classList.remove('bg-purple-600', 'text-white', 'shadow-sm');
+          btn.classList.add('text-slate-400');
+        }
+        if (mBtn) {
+          mBtn.classList.remove('bg-purple-600', 'text-white');
+          mBtn.classList.add('text-slate-400');
+        }
+      });
+
+      const activeView = document.getElementById(`view-${tabName}`);
+      const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+      const activeMBtn = document.getElementById(`m-tab-${tabName}`);
+
+      if (activeView) activeView.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
+      }
+      if (activeMBtn) {
+        activeMBtn.classList.remove('text-slate-400');
+        activeMBtn.classList.add('bg-purple-600', 'text-white');
+      }
+    }
+
+    /* ================= 6. FORMULA CARDS RENDERING ================= */
+    function filterGrade(grade) {
+      currentGrade = grade;
+      const pills = document.querySelectorAll('.grade-pill');
+      pills.forEach(p => {
+        p.classList.remove('bg-purple-600/90', 'text-white');
+        p.classList.add('bg-[#151822]', 'text-slate-400');
+      });
+      event.target.classList.remove('bg-[#151822]', 'text-slate-400');
+      event.target.classList.add('bg-purple-600/90', 'text-white');
+      renderFormulaCards();
+    }
+
+    function renderFormulaCards() {
+      const query = document.getElementById('materi-search').value.toLowerCase();
+      const grid = document.getElementById('formula-cards-grid');
+      grid.innerHTML = "";
+
+      const filtered = FORMULAS_DATA.filter(f => {
+        const matchGrade = currentGrade === "all" || f.grade === currentGrade;
+        const matchSearch = f.title.toLowerCase().includes(query) || f.note.toLowerCase().includes(query);
+        return matchGrade && matchSearch;
+      });
+
+      filtered.forEach(f => {
+        const card = document.createElement('div');
+        card.className = "glass-card rounded-2xl p-5 border border-white/[0.06] hover:border-purple-500/30 transition-all flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-3 text-xs">
+              <span class="px-2 py-0.5 rounded-full font-mono text-[10px] bg-purple-500/10 text-purple-300 border border-purple-500/20">Kelas ${f.grade} • ${f.subject}</span>
+              <button onclick="copyFormula('${f.title}')" class="text-slate-500 hover:text-white transition-colors" title="Salin Catatan">
+                <i class="ph-bold ph-copy"></i>
+              </button>
+            </div>
+            <h4 class="font-bold text-white text-base tracking-tight mb-3">${f.title}</h4>
+            <div class="p-3 rounded-xl bg-[#0a0c12] border border-white/[0.04] text-center my-2 font-mono text-xs overflow-x-auto text-purple-200" id="katex-${f.id}"></div>
+          </div>
+          <p class="text-xs text-slate-400 mt-3 pt-3 border-t border-white/[0.04] leading-relaxed">${f.note}</p>
+        `;
+        grid.appendChild(card);
+
+        // Render formula with KaTeX
+        try {
+          katex.render(f.formula, document.getElementById(`katex-${f.id}`), {
+            throwOnError: false,
+            displayMode: true
+          });
+        } catch (e) {
+          document.getElementById(`katex-${f.id}`).innerText = f.formula;
+        }
+      });
+    }
+
+    function copyFormula(text) {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+    }
+
+    /* ================= 7. FLASHCARD LOGIC ================= */
+    function renderFlashcard() {
+      const card = FLASHCARDS_DATA[activeCardIdx];
+      document.getElementById('fc-badge').innerText = card.badge;
+      document.getElementById('fc-front-text').innerText = card.q;
+      document.getElementById('fc-back-text').innerHTML = card.a;
+      document.getElementById('fc-progress-counter').innerText = `Kartu ${activeCardIdx + 1} / ${FLASHCARDS_DATA.length}`;
+
+      cardIsFlipped = false;
+      document.getElementById('flashcard-3d').classList.remove('rotate-y-180');
+    }
+
+    function flipFlashcard() {
+      cardIsFlipped = !cardIsFlipped;
+      const el = document.getElementById('flashcard-3d');
+      if (cardIsFlipped) el.classList.add('rotate-y-180');
+      else el.classList.remove('rotate-y-180');
+    }
+
+    function nextCard() {
+      activeCardIdx = (activeCardIdx + 1) % FLASHCARDS_DATA.length;
+      renderFlashcard();
+    }
+
+    function prevCard() {
+      activeCardIdx = (activeCardIdx - 1 + FLASHCARDS_DATA.length) % FLASHCARDS_DATA.length;
+      renderFlashcard();
+    }
+
+    /* ================= 8. QUIZ LOGIC ================= */
+    function renderQuiz() {
+      const container = document.getElementById('quiz-list');
+      container.innerHTML = "";
+
+      QUIZ_ITEMS.forEach((q, idx) => {
+        const item = document.createElement('div');
+        item.className = "glass-card p-5 rounded-2xl border border-white/[0.06] space-y-3";
+        
+        let optionsHtml = q.options.map((opt, oIdx) => `
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-[#0d0f17] hover:bg-[#151824] border border-white/[0.04] cursor-pointer transition-all">
+            <input type="radio" name="q_${idx}" value="${oIdx}" class="text-purple-600 focus:ring-0">
+            <span class="text-xs md:text-sm text-slate-300">${opt}</span>
+          </label>
+        `).join('');
+
+        item.innerHTML = `
+          <div class="flex items-center justify-between text-xs">
+            <span class="px-2 py-0.5 rounded font-mono bg-purple-500/10 text-purple-300 font-bold">Soal ${idx + 1}</span>
+          </div>
+          <p class="text-sm font-semibold text-white leading-relaxed">${q.q}</p>
+          <div class="space-y-2 pt-1">${optionsHtml}</div>
+          <div class="pt-2 flex items-center justify-between">
+            <button onclick="checkQuizItem(${idx})" class="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs transition-all">
+              Cek Jawaban
+            </button>
+            <div id="q-feedback-${idx}" class="text-xs font-bold font-mono hidden"></div>
+          </div>
+          <div id="q-expl-${idx}" class="p-3 rounded-xl bg-[#131622] text-xs text-slate-400 hidden leading-relaxed border border-white/[0.04]">
+            <strong>Pembahasan:</strong> ${q.expl}
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function checkQuizItem(idx) {
+      const checked = document.querySelector(`input[name="q_${idx}"]:checked`);
+      const feedback = document.getElementById(`q-feedback-${idx}`);
+      const expl = document.getElementById(`q-expl-${idx}`);
+
+      if (!checked) {
+        feedback.innerText = "Pilih opsi jawaban dulu!";
+        feedback.className = "text-xs font-semibold text-amber-400 block";
+        return;
+      }
+
+      const q = QUIZ_ITEMS[idx];
+      if (parseInt(checked.value) === q.ans) {
+        feedback.innerText = "✅ Tepat Sekali!";
+        feedback.className = "text-xs font-bold text-emerald-400 block font-mono";
+        quizScore += 25;
+        document.getElementById('quiz-session-score').innerText = `${quizScore} Poin`;
+      } else {
+        feedback.innerText = "❌ Masih Kurang Tepat";
+        feedback.className = "text-xs font-bold text-rose-400 block font-mono";
+      }
+      expl.classList.remove('hidden');
+    }
+
+    /* ================= 9. POMODORO TIMER ================= */
+    function setTimerType(type) {
+      clearInterval(pomoTimerId);
+      pomoTimerId = null;
+      document.getElementById('pomo-play-btn').innerHTML = '<i class="ph-fill ph-play text-sm"></i> <span>MULAI SESI</span>';
+
+      pomoMode = type;
+      pomoTime = type === 'focus' ? 25 * 60 : 5 * 60;
+
+      const fBtn = document.getElementById('pomo-btn-focus');
+      const bBtn = document.getElementById('pomo-btn-break');
+      const label = document.getElementById('pomo-state-label');
+
+      if (type === 'focus') {
+        fBtn.className = "px-4 py-1.5 rounded-xl text-xs font-semibold bg-purple-600 text-white transition-all";
+        bBtn.className = "px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition-all";
+        label.innerText = "SESI BELAJAR FOKUS (25M)";
+        label.className = "text-[11px] font-mono uppercase tracking-widest text-purple-400 mt-3";
+      } else {
+        bBtn.className = "px-4 py-1.5 rounded-xl text-xs font-semibold bg-cyan-600 text-white transition-all";
+        fBtn.className = "px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition-all";
+        label.innerText = "SESI ISTIRAHAT SANTAI (5M)";
+        label.className = "text-[11px] font-mono uppercase tracking-widest text-cyan-400 mt-3";
+      }
+      updatePomoDisplay();
+    }
+
+    function togglePomoTimer() {
+      const btn = document.getElementById('pomo-play-btn');
+      if (pomoTimerId) {
+        clearInterval(pomoTimerId);
+        pomoTimerId = null;
+        btn.innerHTML = '<i class="ph-fill ph-play text-sm"></i> <span>LANJUTKAN</span>';
+      } else {
+        btn.innerHTML = '<i class="ph-fill ph-pause text-sm"></i> <span>JEDA (PAUSE)</span>';
+        pomoTimerId = setInterval(() => {
+          pomoTime--;
+          updatePomoDisplay();
+
+          if (pomoTime <= 0) {
+            clearInterval(pomoTimerId);
+            pomoTimerId = null;
+            playChimeSound();
+            if (pomoMode === 'focus') {
+              pomoSessionsCompleted++;
+              document.getElementById('stat-pomo').innerText = pomoSessionsCompleted;
+            }
+            btn.innerHTML = '<i class="ph-fill ph-play text-sm"></i> <span>MULAI LAGI</span>';
+            document.getElementById('pomo-state-label').innerText = "WAKTU TUNTAS! MANTAP HARUN!";
+          }
+        }, 1000);
+      }
+    }
+
+    function resetPomoTimer() {
+      clearInterval(pomoTimerId);
+      pomoTimerId = null;
+      pomoTime = pomoMode === 'focus' ? 25 * 60 : 5 * 60;
+      document.getElementById('pomo-play-btn').innerHTML = '<i class="ph-fill ph-play text-sm"></i> <span>MULAI SESI</span>';
+      updatePomoDisplay();
+    }
+
+    function updatePomoDisplay() {
+      const m = Math.floor(pomoTime / 60);
+      const s = pomoTime % 60;
+      document.getElementById('pomo-display').innerText = 
+        `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function playChimeSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 1.5);
+      } catch (e) {}
+    }
+
+    /* ================= 10. KALKULATOR RUMUS MODAL ================= */
+    function toggleCalcModal() {
+      const m = document.getElementById('calc-modal');
+      m.classList.toggle('hidden');
+      if (!m.classList.contains('hidden')) updateCalcFields();
+    }
+
+    function updateCalcFields() {
+      const val = document.getElementById('calc-select').value;
+      const container = document.getElementById('calc-dynamic-inputs');
+      container.innerHTML = "";
+
+      let fields = [];
+      if (val === 'pythagoras') {
+        fields = [{ id: 'a', label: 'Sisi Tegak a', def: 6 }, { id: 'b', label: 'Sisi Datar b', def: 8 }];
+      } else if (val === 'persegi_panjang') {
+        fields = [{ id: 'p', label: 'Panjang (p)', def: 10 }, { id: 'l', label: 'Lebar (l)', def: 5 }];
+      } else if (val === 'lingkaran') {
+        fields = [{ id: 'r', label: 'Jari-jari (r)', def: 7 }];
+      } else if (val === 'massa_jenis') {
+        fields = [{ id: 'm', label: 'Massa (g)', def: 300 }, { id: 'v', label: 'Volume (cm³)', def: 100 }];
+      } else if (val === 'hukum_ohm') {
+        fields = [{ id: 'i', label: 'Kuat Arus I (Ampere)', def: 2 }, { id: 'r', label: 'Hambatan R (Ohm)', def: 10 }];
+      }
+
+      fields.forEach(f => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <label class="block text-[11px] text-slate-400 mb-1">${f.label}</label>
+          <input type="number" id="cin-${f.id}" value="${f.def}" oninput="calcCompute()" class="w-full bg-[#151822] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+        `;
+        container.appendChild(div);
+      });
+      calcCompute();
+    }
+
+    function calcCompute() {
+      const val = document.getElementById('calc-select').value;
+      const getNum = (id) => parseFloat(document.getElementById(`cin-${id}`)?.value) || 0;
+      const res = document.getElementById('calc-result');
+
+      if (val === 'pythagoras') {
+        const a = getNum('a');
+        const b = getNum('b');
+        const c = Math.sqrt(a * a + b * b).toFixed(2);
+        res.innerText = `c = ${c}`;
+      } else if (val === 'persegi_panjang') {
+        const p = getNum('p');
+        const l = getNum('l');
+        res.innerText = `L = ${p * l} | K = ${2 * (p + l)}`;
+      } else if (val === 'lingkaran') {
+        const r = getNum('r');
+        res.innerText = `L = ${(Math.PI * r * r).toFixed(1)} | K = ${(2 * Math.PI * r).toFixed(1)}`;
+      } else if (val === 'massa_jenis') {
+        const m = getNum('m');
+        const v = getNum('v');
+        res.innerText = v !== 0 ? `ρ = ${(m / v).toFixed(2)} g/cm³` : '0';
+      } else if (val === 'hukum_ohm') {
+        const i = getNum('i');
+        const r = getNum('r');
+        res.innerText = `V = ${i * r} Volt`;
+      }
+    }
+
+    /* ================= 11. BUILT-IN SMADA AI TUTOR (GEMINI API) ================= */
+    let aiConversationHistory = [];
+
+    function handleAiInputKey(e) {
+      if (e.key === 'Enter') submitAiQuery();
+    }
+
+    function sendQuickPrompt(promptText) {
+      document.getElementById('ai-user-input').value = promptText;
+      submitAiQuery();
+    }
+
+    async function submitAiQuery() {
+      const input = document.getElementById('ai-user-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendChatMessage("user", text);
+      input.value = "";
+
+      const sendBtn = document.getElementById('ai-send-btn');
+      sendBtn.disabled = true;
+      sendBtn.classList.add('opacity-50');
+
+      // Add loading bubble
+      const loadingBubbleId = appendLoadingBubble();
+
+      const systemPrompt = `Kamu adalah Smada AI Study Mentor untuk seorang siswa SMP kelas 9 yang ambisius bernama Harun, yang sedang belajar giat mempersiapkan Tes Kemampuan Akademik (TKA) dan Ujian Masuk agar lolos masuk ke SMA Negeri 2 (SMADA).
+Karaktermu:
+- Ramah, menyemangati, suportif, dan memanggil pengguna dengan "Harun".
+- Jelaskan konsep Matematika, IPA, Bahasa Indonesia, dan Bahasa Inggris SMP kelas 7-9 dengan bahasa yang santai, terstruktur, intuitif, dan tidak bertele-tele.
+- Selalu berikan rumus, contoh soal mini, atau trik cepat jika relevan.
+- Berikan motivasi ringan di akhir respons yang berhubungan dengan perjuangan masuk SMADA.`;
+
+      aiConversationHistory.push({ role: "user", parts: [{ text: text }] });
+
+      try {
+        const apiKey = ""; // Canvas runtime automatically supplies the key when empty
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+        const payload = {
+          contents: aiConversationHistory,
+          systemInstruction: { parts: [{ text: systemPrompt }] }
+        };
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        const candidate = data.candidates?.[0];
+
+        // Remove loading bubble
+        removeElement(loadingBubbleId);
+
+        if (candidate && candidate.content?.parts?.[0]?.text) {
+          const aiResponseText = candidate.content.parts[0].text;
+          aiConversationHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
+          appendChatMessage("ai", aiResponseText);
+        } else {
+          appendChatMessage("ai", "Maaf Harun, koneksi sedikit terganggu. Coba tanyakan kembali ya!");
+        }
+      } catch (err) {
+        removeElement(loadingBubbleId);
+        appendChatMessage("ai", "Ada sedikit kendala jaringan. Pastikan internetmu terhubung ya!");
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('opacity-50');
+      }
+    }
+
+    function appendChatMessage(sender, text) {
+      const container = document.getElementById('ai-chat-messages');
+      const bubble = document.createElement('div');
+      bubble.className = "flex gap-3 " + (sender === "user" ? "justify-end" : "");
+
+      const isUser = sender === "user";
+      const parsedText = marked ? marked.parse(text) : text;
+
+      bubble.innerHTML = isUser ? `
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-3.5 rounded-2xl max-w-lg leading-relaxed shadow-sm">
+          ${text}
+        </div>
+      ` : `
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white text-xs flex-shrink-0 mt-0.5">
+          <i class="ph-bold ph-robot"></i>
+        </div>
+        <div class="bg-[#171a24] border border-white/[0.05] p-3.5 rounded-2xl max-w-xl text-slate-200 leading-relaxed text-xs md:text-sm prose-invert">
+          ${parsedText}
+        </div>
+      `;
+
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function appendLoadingBubble() {
+      const container = document.getElementById('ai-chat-messages');
+      const id = "loading-" + Date.now();
+      const bubble = document.createElement('div');
+      bubble.id = id;
+      bubble.className = "flex gap-3";
+      bubble.innerHTML = `
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white text-xs flex-shrink-0">
+          <i class="ph-bold ph-sparkle animate-spin"></i>
+        </div>
+        <div class="bg-[#171a24] border border-white/[0.05] px-4 py-3 rounded-2xl text-slate-400 text-xs flex items-center gap-1.5 font-mono">
+          <span>Smada Mentor sedang berpikir...</span>
+        </div>
+      `;
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+      return id;
+    }
+
+    function removeElement(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    /* ================= 12. INITIALIZATION ================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderFormulaCards();
+      renderFlashcard();
+      renderQuiz();
+    });
+  </script>
+</body>
+</html>
